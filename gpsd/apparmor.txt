@@ -1,0 +1,113 @@
+# ------------------------------------------------------------------
+#    Parts of this file are from: https://launchpadlibrarian.net/386613555/usr.sbin.gpsd
+#    Copyright (C) 2018 Canonical Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+profile gpsd flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # Capabilities
+  file,
+  signal (send) set=(kill,term,int,hup,cont),
+
+  # S6-Overlay
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  # Bashio
+  /usr/lib/bashio/** ix,
+  /tmp/** rwk,
+
+  # Access to options.json and other files within your addon
+  /data/** rw,
+
+  # Execution program
+  /usr/sbin/gpsd cx,
+
+  profile /usr/sbin/gpsd flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    capability ipc_lock,
+    capability net_bind_service,
+    capability sys_nice,
+    capability fsetid,
+    capability setgid,
+    capability setuid,
+    capability sys_resource,
+
+    # Receive signals from S6-Overlay
+    signal (receive) peer=*_gpsd,
+
+    # Access to options.json and other files within your addon
+    /data/** rw,
+
+    # Access to mapped volumes specified in config.json
+    # /share/** rw,
+
+    # for all the remote connection options
+    network dgram,
+    network stream,
+
+    # common serial paths to GPS devices
+    /dev/tty{,S,USB,AMA}[0-9]*    rw,
+    /dev/ACM[0-9]*    rw,
+    /sys/dev/char     r,
+    /sys/dev/char/**  r,
+
+    # pps related devices
+    /dev/pps[0-9]*              rw,
+    /sys/devices/virtual/pps    r,
+    /sys/devices/virtual/pps/** r,
+
+    # gpsd device to share
+    /dev/gpsd[0-9] rw,
+
+    # libusb device access to GPS devices
+    /proc/      r,
+    /dev/       r,
+    /sys/class/ r,
+    /sys/bus/   r,
+    /dev/bus/usb/ r,
+    /sys/bus/usb/devices/ r,
+    /sys/devices/pci[0-9]*/**/{uevent,busnum,devnum,speed,descriptors} r,
+    /run/udev/data/+usb* r,
+    /run/udev/data/c189* r,
+
+    # common config path (by default unused)
+    /etc/gpsd/* r,
+
+    # enumerate own FDs
+    @{PROC}/@{pid}/fd/ r,
+
+    # default paths feeding GPS data into chrony
+    /{,var/}run/chrony.tty{,S,USB,AMA}[0-9]*.sock rw,
+    /tmp/chrony.tty{,S,USB,AMA}[0-9]*.sock rw,
+
+    # Access required for service functionality
+    # Note: List was built by doing the following:
+    # 1. Add what is obviously needed based on what is in the script
+    # 2. Add `complain` as a flag to this profile temporarily and run the addon
+    # 3. Review the audit log with `journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'` and add other access as needed
+    # Remember to remove the `complain` flag when you are done
+    /usr/sbin/gpsd r,
+    /bin/bash rix,
+    /bin/echo ix,
+  }
+}

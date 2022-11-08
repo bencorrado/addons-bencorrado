@@ -1,0 +1,10 @@
+---
+configuration:
+  device:
+    name: Device
+    description: The GNSS/GPS device.
+  log_level:
+    name: Log Level
+    description: This option sets the log level of GPSD.
+network:
+  2947/tcp: GPSD communication

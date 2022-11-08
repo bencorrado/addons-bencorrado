@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start the GPSD Service
+# ==============================================================================
+
+# Declare variables
+SERIAL_DEVICE=$(bashio::config 'device')
+
+## Tell the user we are starting GPSD and what serial port we are using
+bashio::log.info "Starting GPSD with serial port ${SERIAL_DEVICE}"
+
+## Run your program
+exec /usr/sbin/gpsd -N -n -G ${SERIAL_DEVICE}
