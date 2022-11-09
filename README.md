@@ -9,7 +9,7 @@ This repository can be used as a "blueprint" for add-on development to help you 
 
 This repository contains the following add-ons
 
-### [GPSD 🛰️](https://github.com/bencorrado/addons-bencorrado/tree/main/gpsd)
+### [gpsd 🛰️](https://github.com/bencorrado/addons-bencorrado/tree/main/gpsd)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]

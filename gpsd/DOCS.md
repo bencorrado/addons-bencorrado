@@ -1,4 +1,4 @@
-# Home Assistant GPSD Add-on: GPSD
+# Home Assistant Ben Corrado's Add-on: gpsd
 
 ## How to use
 
@@ -6,7 +6,7 @@ Plug a [compatible GNSS device](https://gpsd.gitlab.io/gpsd/hardware.html) into 
 
 Configure the correct serial device and in the configuration section.
 
-This Add-on replaces the local installation requirements listed at in the [GPSD  integration](https://www.home-assistant.io/integrations/gpsd/) for supervised installations.
+This Add-on replaces the local installation requirements listed at in the [gpsd  integration](https://www.home-assistant.io/integrations/gpsd/) for supervised installations.
 
 Add the following to your configuration.yaml after installing this addon to get GPS data flowing into your Home Assistant.
 
@@ -16,4 +16,4 @@ sensor:
   - platform: gpsd
 ```
 
-More information from, and many thanks to, the [GPSD](https://gpsd.gitlab.io/gpsd/) team!
+More information from, and many thanks to, the [gpsd](https://gpsd.gitlab.io/gpsd/) team!

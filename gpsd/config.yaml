@@ -1,5 +1,5 @@
 ---
-name: GPSD Home Assistant add-on
+name: gpsd Home Assistant add-on
 version: "1.0.0"
 slug: gpsd
 description: Connect GPS and other GNSS devices to Home Assistant and share them on your network.
@@ -11,13 +11,15 @@ arch:
   - amd64
   - i386
 init: false
-homeassistant: 0.26
+homeassistant: '0.26'
 options:
   device: null
   log_level: info
 uart: true
 ports:
   2947/tcp: 2947
+ports_description:
+  2947/tcp: gpsd communication TCP
 #image: "ghcr.io/bencorrado/{arch}-addon-gpsd"
 schema:
   device: device(subsystem=tty)

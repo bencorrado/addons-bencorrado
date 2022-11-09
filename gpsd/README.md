@@ -1,4 +1,4 @@
-# Home Assistant bencorrado Add-on: GPSD
+# Home Assistant bencorrado Add-on: gpsd
 
 ![Project Stage][project-stage-shield]
 [![License][license-shield]](LICENSE.md)
