@@ -1,6 +1,6 @@
 ---
 name: gpsd Home Assistant add-on
-version: "1.0.0"
+version: "1.0.1"
 slug: gpsd
 description: Connect GPS and other GNSS devices to Home Assistant and share them on your network.
 url: "https://github.com/bencorrado/addons-bencorrado/tree/main/gpsd"
